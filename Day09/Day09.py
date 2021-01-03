@@ -4,9 +4,9 @@ def rec_part1(dist, key, usedkeys):
     smallest = -1
     while minkey in usedkeys:
         smallest += 1
-        if smallest == len(distdict[key].values()):
+        if smallest == len(dist[key].values()):
             return 0
-        minval = sorted(distdict[key].values())[smallest]
+        minval = sorted(dist[key].values())[smallest]
         for k, v in dist[key].items():
             if v == minval:
                 minkey = k
@@ -17,18 +17,19 @@ def rec_part1(dist, key, usedkeys):
 def rec_part2(dist, key, usedkeys):
     maxkey = key
     maxval = 0
-    smallest = len(distdict[key].values())
+    smallest = len(dist[key].values())
     while maxkey in usedkeys:
         smallest -= 1
         if smallest == -1:
             return 0
-        maxval = sorted(distdict[key].values())[smallest]
+        maxval = sorted(dist[key].values())[smallest]
         for k, v in dist[key].items():
             if v == maxval:
                 maxkey = k
                 break
     usedkeys.append(maxkey)
     return dist[key][maxkey] + rec_part2(dist, maxkey, usedkeys)
+
 
 lines = open("input.txt","r").readlines() 
 distdict = {}

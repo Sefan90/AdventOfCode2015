@@ -26,22 +26,34 @@ for line in lines:
     skip = False
     lastpara = ""
     sumpara = 0
+    para = 0
+    hake = 0
     while i < len(line):
+        if line[i] == "[":
+            hake = True
+        elif line[i] == "]" or line[i] == "{":
+            hake = False
         if line[i] == "{" and skip == False:
             if sumpara != 0:
                  output += sumpara
                  sumpara = 0
             lastpara = line[i]
+        elif line[i] == "{" and skip == False:
+            para += 1
         elif (lastpara == "{" and line[i] == "}"):
             if skip == False:
                 output += sumpara
-            skip == False
-            sumpara = 0
-            lastpara = ""
-        elif line[i] == "r" and line[i+1] == "e" and line[i+2] == "d":
-            if lastpara == "{":
-                print(i)
-                skip = True
+                lastpara = ""
+                sumpara = 0
+            elif skip == True and para > 0:
+                para -= 1
+            else:
+                skip = False
+                lastpara = ""
+                sumpara = 0
+                para = 0
+        elif lastpara == "{" and line[i] == "r" and line[i+1] == "e" and line[i+2] == "d" and hake == False:
+            skip = True
         else:
             tmp, i = rec(i,line)
             if tmp != "" and lastpara == "":
@@ -54,4 +66,5 @@ for line in lines:
 print(output)
 
 #71790 low
+#108862 high
 #156051 high
